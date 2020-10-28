@@ -16,7 +16,7 @@ namespace DataAcess.Crud
             dao = SqlDao.GetInstance();
         }
         /// <summary>
-        /// Debe recibir un codigo de canton para funcionar
+        /// Debe recibir un codigo de canton y provincia para funcionar
         /// </summary>        
         public List<T> RetrieveAll<T>(BaseEntity entity)
         {

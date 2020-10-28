@@ -31,11 +31,21 @@ namespace CoreAPI
                 else 
                 {
                     Credito cred = new Credito();
-                    cred.IdCredito = c.IdCredito;
+                    cred.IdCredito = pago.IdCredito;
                     cred = crudCredito.Retrieve<Credito>(cred);
-                    if (cred.Saldo >= c.Monto)
+
+                    if (cred.Saldo >= pago.Monto || pago.Operacion.Equals("Cargo"))
                     {
+                        pago.Fecha = DateTime.Now;
                         crudPago.Create(pago);
+                        if (pago.Operacion.Equals("Cargo"))
+                        {
+                            cred.Saldo += pago.Monto;
+                        } else if (pago.Operacion.Equals("Pago"))
+                        {
+                            cred.Saldo -= pago.Monto;
+                        }
+                        crudCredito.Update(cred);
                     }
                     else
                         throw new BussinessException(14);

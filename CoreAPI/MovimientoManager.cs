@@ -31,11 +31,23 @@ namespace CoreAPI
                 else
                 {
                     Cuenta cuenta = new Cuenta();
-                    cuenta.IdCuenta = c.IdCuenta;
+                    cuenta.IdCuenta = movimiento.IdCuenta;
                     cuenta = crudCuenta.Retrieve<Cuenta>(cuenta);
-                    if (cuenta.Saldo >= c.Monto)
+
+                    if (cuenta.Saldo >= Math.Abs(movimiento.Monto) || movimiento.Tipo.Equals("Deposito"))
                     {
+                        movimiento.Fecha = DateTime.Now;
                         crudMovimiento.Create(movimiento);
+                        if (movimiento.Tipo.Equals("Deposito"))
+                        {
+                            cuenta.Saldo += movimiento.Monto;
+                        } else if (movimiento.Tipo.Equals("Retiro")) 
+                        {
+                            cuenta.Saldo -= movimiento.Monto;
+                        }
+
+
+                        crudCuenta.Update(cuenta);
                     }
                     else
                         throw new BussinessException(14);
@@ -87,7 +99,7 @@ namespace CoreAPI
 
         public List<Movimiento> RetrieveAllID(Movimiento movimiento)
         {
-            Cuenta c = null;
+            Cuenta c = new Cuenta();
             c.IdCuenta = movimiento.IdCuenta;
             try
             {
