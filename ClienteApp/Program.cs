@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Entities_POJO;
-using CoreAPI;
-
 using System.Net.Http;
+using Newtonsoft.Json;
 using System.Text;
 using System.Threading.Tasks;
+using WebAPI.Models;
+using System.Collections;
 
 static class Module1
 {
     static HttpClient client = new HttpClient();
-    public static ClienteManager clieMng = new ClienteManager();
-    public static DireccionManager direcMng = new DireccionManager();
-    public static CuentaManager cuentaMng = new CuentaManager();
-    public static CreditoManager creditMng = new CreditoManager();
     public static Cliente tCliente = new Cliente();
     public static Cuenta tCuenta = new Cuenta();
     public static Credito tCredito = new Credito();
@@ -30,61 +27,66 @@ static class Module1
         tDirec = null;
         tCredito = null;
     }
-    public static void Menu()
+    public static void drawMenu() 
+    {
+        Console.Clear();
+        Console.WriteLine(" ----------- Menu --------------");
+        Console.WriteLine(" 1.  Listar todos los clientes");
+        Console.WriteLine(" 2.  Listar todas las cuentas");
+        Console.WriteLine(" 3.  Listar todos los créditos");
+        Console.WriteLine(" -------------------------------");
+        Console.WriteLine(" 4.  Buscar cliente por ID");
+        Console.WriteLine(" 5.  Crear nuevo cliente");
+        if (tCliente != null)
+        {
+            Console.WriteLine();
+            Console.WriteLine("     ------- Cliente " + tCliente.Id + " --------");
+            Console.WriteLine("     8.  Ver perfil del cliente");
+            Console.WriteLine("     9.  Modificar perfil del cliente");
+            Console.WriteLine("     10. Eliminar cliente");
+            Console.WriteLine(" ----------------------------------------");
+            if (tCuenta == null)
+            {
+                Console.WriteLine("     6.  Registrar cuenta");
+                Console.WriteLine("     ------------------------------------");
+            }
+            else
+            {
+                Console.WriteLine("     11.  Ver cuenta");
+                Console.WriteLine("     12.  Modificar cuenta");
+                Console.WriteLine("     13.  Eliminar cuenta");
+                Console.WriteLine("     ------------------------------------");
+            }
+
+            if (tCredito == null)
+            {
+                Console.WriteLine("     7.   Registrar crédito");
+                Console.WriteLine("     ------------------------------------");
+            }
+            else
+            {
+                Console.WriteLine("     14.  Ver crédito");
+                Console.WriteLine("     15.  Modificar crédito");
+                Console.WriteLine("     16.  Eliminar crédito");
+                Console.WriteLine(" ----------------------------------------");
+            }
+        }
+
+        Console.WriteLine(" -------------------------------");
+        Console.WriteLine(" 100. SALIR");
+        Console.WriteLine(" -------------------------------");
+        Console.WriteLine();
+        Console.Write(" Seleccione una opción: ");
+
+    }
+    public static async Task Menu()
     {
         string leer = "";
         int opcion = 0;
         do
         {
             opcion = 0;
-            Console.Clear();
-            Console.WriteLine(" ----------- Menu --------------");
-            Console.WriteLine(" 1.  Listar todos los clientes");
-            Console.WriteLine(" 2.  Listar todas las cuentas");
-            Console.WriteLine(" 3.  Listar todos los créditos");
-            Console.WriteLine(" -------------------------------");
-            Console.WriteLine(" 4.  Buscar cliente por ID");
-            Console.WriteLine(" 5.  Crear nuevo cliente");
-            if (tCliente != null)
-            {
-                Console.WriteLine();
-                Console.WriteLine("     ------- Cliente " + tCliente.Id + " --------");
-                Console.WriteLine("     8.  Ver perfil del cliente");
-                Console.WriteLine("     9.  Modificar perfil del cliente");
-                Console.WriteLine("     10. Eliminar cliente");
-                Console.WriteLine(" ----------------------------------------");
-                if (tCuenta == null)
-                {
-                    Console.WriteLine("     6.  Registrar cuenta");
-                    Console.WriteLine("     ------------------------------------");
-                }
-                else
-                {
-                    Console.WriteLine("     11.  Ver cuenta");
-                    Console.WriteLine("     12.  Modificar cuenta");
-                    Console.WriteLine("     13.  Eliminar cuenta");
-                    Console.WriteLine("     ------------------------------------");
-                }
-
-                if (tCredito == null)
-                {
-                    Console.WriteLine("     7.   Registrar crédito");
-                    Console.WriteLine("     ------------------------------------");
-                }
-                else
-                {
-                    Console.WriteLine("     14.  Ver crédito");
-                    Console.WriteLine("     15.  Modificar crédito");
-                    Console.WriteLine("     16.  Eliminar crédito");
-                    Console.WriteLine(" ----------------------------------------");
-                }
-            }
-
-            Console.WriteLine(" -------------------------------");
-            Console.WriteLine(" 100. SALIR");
-            Console.WriteLine(" -------------------------------");
-            Console.WriteLine();
-            Console.Write(" Seleccione una opción: ");
+            drawMenu();
             leer = Console.ReadLine();
             if (int.TryParse(leer, out opcion))
                 opcion = int.Parse(leer);
@@ -94,185 +96,25 @@ static class Module1
             {
                 case 1:
                     {
-                        ListarTodos();
+                        ListarTodosClientes().Wait();
                         break;
                     }
 
                 case 2:
                     {
-                        ListarCuentas();
+                        ListarCuentas().Wait();
                         break;
                     }
 
                 case 3:
                     {
-                        ListarCreditos();
+                        ListarCreditos().Wait();
                         break;
                     }
-
-                case 4:
+               
+                case 17: 
                     {
-                        BuscarCliente();
-                        break;
-                    }
-
-                case 5:
-                    {
-                        CrearCliente();
-                        break;
-                    }
-
-                case 6:
-                    {
-                        if (tCliente != null)
-                            CrearCuenta();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido, seleccione un cliente primero.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 7:
-                    {
-                        if (tCliente != null)
-                            CrearCredito();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido, seleccione un cliente primero.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 8:
-                    {
-                        if (tCliente != null)
-                            ListarCliente();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido, seleccione un cliente primero.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 9:
-                    {
-                        if (tCliente != null)
-                            UpdateCliente();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido, seleccione un cliente primero.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 10:
-                    {
-                        if (tCliente != null)
-                            EliminarCliente();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido, seleccione un cliente primero.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 11:
-                    {
-                        if (tCuenta != null)
-                            ListarCuenta();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 12:
-                    {
-                        if (tCuenta != null)
-                            ModificarCuenta();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 13:
-                    {
-                        if (tCuenta != null)
-                            EliminarCuenta();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 14:
-                    {
-                        if (tCredito != null)
-                            ListarCredito();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 15:
-                    {
-                        if (tCredito != null)
-                            ModificarCredito();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido.");
-                            Console.ReadKey();
-                        }
-
-                        break;
-                    }
-
-                case 16:
-                    {
-                        if (tCredito != null)
-                            EliminarCredito();
-                        else
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Comando no válido.");
-                            Console.ReadKey();
-                        }
-
+                        IngresarDireccion().Wait();
                         break;
                     }
 
@@ -293,49 +135,318 @@ static class Module1
         }
         while (opcion != 100);
     }
-
-    public static String IngresarFecha() 
+    public static DateTime IngresarFecha() 
     {
-        Console.WriteLine("Ingrese un año: ");
+        string fecha = "";
+        int valor;
+        string anno;
+        string mes;
+        string dia;
+        Boolean token = false;
+        do
+        {
+            anno = "";
+            Console.WriteLine("Ingrese un año: ");
+            anno = Console.ReadLine();
+            if (int.TryParse(anno, out valor))
+            {
+                valor = int.Parse(anno);
+                if (valor > 0 && valor <= DateTime.Now.Year)
+                {
+                    fecha = anno;
+                    token = true;
+                }
+            }
+        } while (token == false);
 
+        token = false;
+        do
+        {
+            mes = "";
+            Console.WriteLine("Ingrese un mes: ");
+            mes = Console.ReadLine();
+            if (int.TryParse(mes, out valor))
+            {
+                valor = int.Parse(mes);
+                if (valor > 0 && valor <= DateTime.Now.Month && (int.Parse(anno) == DateTime.Now.Year))
+                {
+                    fecha = fecha + "-" + mes;
+                    token = true;
+                }
+                else
+                {
+                    if (valor > 0 && valor <= 12 && (int.Parse(anno) < DateTime.Now.Year))
+                    {
+                        fecha = fecha + "-" + mes;
+                        token = true;
+                    }
+                }
+
+            }
+        } while (token == false);
+        token = false;
+        do
+        {
+            dia = "";
+            Console.WriteLine("Ingrese un día: ");
+            dia = Console.ReadLine();
+            if (int.TryParse(dia, out valor))
+            {
+                valor = int.Parse(dia);
+                if (valor > 0 && valor <= DateTime.Now.Day && (int.Parse(mes) == DateTime.Now.Month))
+                {
+                    fecha = fecha + "-" + dia;
+                    token = true;
+                }
+                else
+                {
+                    if (valor > 0 && valor <= 31 && (int.Parse(mes) < DateTime.Now.Month))
+                    {
+                        fecha = fecha + "-" + dia;
+                        token = true;
+                    }
+                }
+
+            }
+        } while (token == false);
+        Console.WriteLine(fecha);
+        DateTime resultado = new DateTime(int.Parse(anno),int.Parse(mes),int.Parse(dia));
+        return resultado;
+    }
+    public static async Task <Direccion> IngresarDireccion()
+    {
+        Direccion tempDirec = new Direccion();
+        string provincia = "";
+        string canton = "";
+        string distrito = "";
+        string detalles = "";
+        int result = 0;
+        bool token = false;
+
+        try
+        {
+            var respProv = await client.GetAsync("https://localhost:44384/api/provincia");
+            var contenido = await respProv.Content.ReadAsStringAsync();
+            ApiResponse apiResponse = JsonConvert.DeserializeObject<ApiResponse>(contenido);
+            Provincia[] tempList = JsonConvert.DeserializeObject<Provincia[]>(apiResponse.Data.ToString());
+            
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("- Codigo: --- Provincia: ----------------------------------------");
+                foreach (var c in tempList)
+                {
+                    Console.WriteLine();
+                    Console.Write("-  " + c.Cod);
+                    Console.WriteLine(" - " + c.Nombre);
+                }
+                Console.WriteLine();
+                Console.Write("Ingrese el CODIGO de una provincia: ");
+                provincia = Console.ReadLine();
+                if (int.TryParse(provincia, out result))
+                {
+                    if (result > 0 && result < 8)
+                    {
+                        token = true;
+                        tempDirec.Provincia = tempList[result-1].Nombre;
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Código inválido.");
+                        provincia = "";
+                        Console.ReadKey();
+                    }
+
+                }
+                else 
+                {
+                    Console.WriteLine("Código inválido.");
+                    provincia = "";
+                    Console.ReadKey();
+                }
+
+
+            } while (token == false);
+
+            token = false;
+            var respCant = await client.GetAsync("https://localhost:44384/api/canton/?canton=0&provincia=" + provincia);
+            contenido = await respCant.Content.ReadAsStringAsync();
+            apiResponse = JsonConvert.DeserializeObject<ApiResponse>(contenido);
+            Canton[] tempListC = JsonConvert.DeserializeObject<Canton[]>(apiResponse.Data.ToString());
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("- Codigo: --- Canton: ------------------------------");
+                foreach (var c in tempListC)
+                {
+                    Console.WriteLine();
+                    Console.Write("-  " + c.CantonId);
+                    Console.WriteLine(" -   " + c.Nombre);
+                }
+                Console.WriteLine();
+                Console.WriteLine("Ingrese el CODIGO de un canton: ");
+                canton = Console.ReadLine();
+                if (int.TryParse(canton, out result))
+                {
+                    
+                    if (result > 0 && result <= tempListC.Length)
+                    {
+                        token = true;
+                        tempDirec.Canton = tempListC[result-1].Nombre ;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Código inválido.");
+                        canton = "";
+                        Console.ReadKey();
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Código inválido.");
+                    canton = "";
+                    Console.ReadKey();
+                }
+
+
+            } while (token == false);
+
+            token = false;
+            var respDist = await client.GetAsync("https://localhost:44384/api/Distrito/?canton=0" +canton+ "&provincia=" + provincia);
+            contenido = await respDist.Content.ReadAsStringAsync();
+            apiResponse = JsonConvert.DeserializeObject<ApiResponse>(contenido);
+            Distrito[] tempListD = JsonConvert.DeserializeObject<Distrito[]>(apiResponse.Data.ToString());
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("- Codigo: --- Distrito: ----------------------------");
+                foreach (var c in tempListD)
+                {
+                    Console.WriteLine();
+                    Console.Write("-  " + c.DistritoId);
+                    Console.WriteLine(" -   " + c.Nombre);
+                }
+                Console.WriteLine();
+                Console.WriteLine("Ingrese el CODIGO de un distrito: ");
+                distrito = Console.ReadLine();
+                if (int.TryParse(distrito, out result))
+                {
+                    
+                    if (result > 0 && result <= tempListD.Length)
+                    {
+                        token = true;
+                        tempDirec.Distrito = tempListD[result-1].Nombre;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Código inválido.");
+                        distrito = "";
+                        Console.ReadKey();
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Código inválido.");
+                    distrito = "";
+                    Console.ReadKey();
+                }
+
+
+            } while (token == false);
+
+            token = false;
+            do 
+            {
+                Console.Write("Ingrese señas particulares: ");
+                detalles = Console.ReadLine();
+                Console.WriteLine(" - " + detalles + " - es correcto?(s/n): ");
+                var respuesta = Console.ReadLine();
+                if (respuesta.Equals("s") || respuesta.Equals("S")) 
+                {
+                    token = true;
+                    tempDirec.Detalles = detalles;
+                } else 
+                {
+                    Console.Clear();
+                }
+            } while (token == false);
+            
+
+            
+
+        }
+        catch (Exception e) 
+        {
+            Console.WriteLine(e.Message);
+        }
+        Console.WriteLine(tempDirec.Provincia);
+        Console.WriteLine(tempDirec.Canton);
+        Console.WriteLine(tempDirec.Distrito);
+        Console.WriteLine(tempDirec.Detalles);
+        Console.ReadKey();
+        return tempDirec;
+    }
+    public static async Task ListarTodosClientes()
+    {
+
+        try
+        {
+            var respuesta = await client.GetAsync("https://localhost:44384/api/cliente");
+            if (respuesta.Content != null)
+            {
+                var contenido = await respuesta.Content.ReadAsStringAsync();
+                
+                ApiResponse apiResponse = JsonConvert.DeserializeObject<ApiResponse>(contenido);
+                Cliente[] tempClienteList = JsonConvert.DeserializeObject<Cliente[]>(apiResponse.Data.ToString());
+                Console.Clear();
+                foreach (var c in tempClienteList)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("----------------------------------------------------------------");
+                    Console.WriteLine("Cliente:              " + c.Id);
+                    Console.WriteLine("Nombre:               " + c.Nombre);
+                    Console.WriteLine("Apellido:             " + c.Apellido);
+                    Console.WriteLine("Fecha de nacimiento:  " + c.DOB);
+                    Console.WriteLine("Estado civil:         " + c.ECivil);
+                    Console.WriteLine("Edad:                 " + c.Edad);
+                }
+                Console.ReadKey();
+            }
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
 
     }
-
-    public static void ListarTodos()
+    public static async Task ListarCuentas()
     {
         try
         {
-            Console.Clear();
-            List<Cliente> lista = new List<Cliente>();
-            Direccion direccion = new Direccion();
-            lista = clieMng.RetrieveAll();
-
-            if (lista.Count > 0)
+            var respuesta = await client.GetAsync("https://localhost:44384/api/cuenta");
+            if (respuesta.Content != null)
             {
-                foreach (Cliente clitemp in lista)
+                var contenido = await respuesta.Content.ReadAsStringAsync();
+
+                ApiResponse apiResponse = JsonConvert.DeserializeObject<ApiResponse>(contenido);
+                Cuenta[] tempList = JsonConvert.DeserializeObject<Cuenta[]>(apiResponse.Data.ToString());
+                Console.Clear();
+                foreach (var c in tempList)
                 {
-                    direccion.IdCliente = clitemp.Id;
-                    direccion = direcMng.RetrieveById(direccion);
                     Console.WriteLine();
                     Console.WriteLine("----------------------------------------------------------------");
-                    Console.WriteLine("Cliente:              " + clitemp.Id);
-                    Console.WriteLine("Nombre:               " + clitemp.Nombre);
-                    Console.WriteLine("Apellido:             " + clitemp.Apellido);
-                    Console.WriteLine("Fecha de nacimiento:  " + clitemp.DOB);
-                    Console.WriteLine("Estado civil:         " + clitemp.ECivil);
-                    Console.WriteLine("Edad:                 " + clitemp.Edad);
-                    if (direccion.Provincia != null/* TODO Change to default(_) if this is not a reference type */ )
-                        Console.WriteLine("Direccion: " + direccion.Provincia + ", " + direccion.Canton + " ," + direccion.Distrito);
+                    Console.WriteLine("Cliente: " + c.IdCliente);
+                    Console.WriteLine("Cuenta: " + c.IdCuenta);
+                    Console.WriteLine("Tipo: " + c.Tipo);
+                    Console.WriteLine("Moneda: " + c.Moneda);
+                    Console.WriteLine("Saldo: " + c.Saldo);
                 }
-                Console.WriteLine();
-                Console.WriteLine("----------------------------------------------------------------");
-                Console.Write("Presione una tecla para continuar...");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("No hay clientes registrados");
                 Console.ReadKey();
             }
         }
@@ -347,78 +458,33 @@ static class Module1
             Console.WriteLine("***************************");
         }
     }
-    
-    public static void ListarCuentas()
-    {
-        try
-        {
-            Console.Clear();
-            List<Cuenta> lista = new List<Cuenta>();
-            lista = cuentaMng.RetrieveAll();
-
-            if (lista.Count > 0)
-            {
-                foreach (Cuenta clitemp in lista)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("----------------------------------------------------------------");
-                    Console.WriteLine("Cliente: " + clitemp.IdCliente);
-                    Console.WriteLine("Tipo: " + clitemp.Tipo);
-                    Console.WriteLine("Moneda: " + clitemp.Moneda);
-                    Console.WriteLine("Saldo: " + clitemp.Saldo);
-                }
-                Console.WriteLine();
-                Console.WriteLine("----------------------------------------------------------------");
-                Console.Write("Presione una tecla para continuar...");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("No hay cuentas registradas");
-                Console.ReadKey();
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("***************************");
-            Console.WriteLine("ERROR: " + ex.Message);
-            Console.WriteLine(ex.StackTrace);
-            Console.WriteLine("***************************");
-        }
-    }
-    public static void ListarCreditos()
+    public static async Task ListarCreditos()
     {
         Console.Clear();
         try
         {
-            List<Credito> lista = new List<Credito>();
-            lista = creditMng.RetrieveAll();
-
-            if (lista.Count > 0)
+            var respuesta = await client.GetAsync("https://localhost:44384/api/credito");
+            if (respuesta.Content != null)
             {
-                foreach (Credito clitemp in lista)
+                var contenido = await respuesta.Content.ReadAsStringAsync();
+
+                ApiResponse apiResponse = JsonConvert.DeserializeObject<ApiResponse>(contenido);
+                Credito[] tempList = JsonConvert.DeserializeObject<Credito[]>(apiResponse.Data.ToString());
+                Console.Clear();
+                foreach (var c in tempList)
                 {
                     Console.WriteLine();
                     Console.WriteLine("----------------------------------------------------------------");
-                    Console.WriteLine("Cliente: " + clitemp.IdCliente);
-                    Console.WriteLine("Monto: " + clitemp.Monto);
-                    Console.WriteLine("Tasa: " + clitemp.Tasa);
-                    Console.WriteLine("Nombre: " + clitemp.Nombre);
-                    Console.WriteLine("Cuota: " + clitemp.Cuota);
-                    Console.WriteLine("Fecha de aprobación: " + clitemp.Fecha);
-                    Console.WriteLine("Estado: " + clitemp.Estado);
-                    Console.WriteLine("Saldo: " + clitemp.Saldo);
+                    Console.WriteLine("Cliente: " + c.IdCliente);
+                    Console.WriteLine("IdCredito: " + c.IdCredito);
+                    Console.WriteLine("Monto: " + c.Monto);
+                    Console.WriteLine("Tasa: " + c.Tasa);
+                    Console.WriteLine("Nombre: " + c.Nombre);
+                    Console.WriteLine("Cuota: " + c.Cuota);
+                    Console.WriteLine("Fecha de aprobación: " + c.Fecha);
+                    Console.WriteLine("Estado: " + c.Estado);
+                    Console.WriteLine("Saldo: " + c.Saldo);
                 }
-                Console.WriteLine();
-                Console.WriteLine("----------------------------------------------------------------");
-                Console.Write("Presione una tecla para continuar...");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("No hay créditos registrados");
                 Console.ReadKey();
             }
         }
@@ -444,7 +510,7 @@ static class Module1
             string id = Console.ReadLine();
             Cliente cliente = new Cliente();
             cliente.Id = id;
-            cliente = clieMng.RetrieveById(cliente);
+            //cliente = clieMng.RetrieveById(cliente);
             if (cliente == null)
             {
                 Console.Write("Primer Nombre: ");
@@ -480,7 +546,7 @@ static class Module1
                 cliente.Id = id;
                 cliente.Nombre = nombre;
                 cliente.Apellido = apellido;
-                cliente.DOB = dob;
+                cliente.DOB = IngresarFecha();
                 cliente.Edad = edad;
                 cliente.ECivil = estado;
                 cliente.Edad = edad;
@@ -491,10 +557,10 @@ static class Module1
                 direccion.Distrito = distrito;
                 direccion.Detalles = detalles;
                 Init();
-                clieMng.Create(cliente);
+              /*  clieMng.Create(cliente);
                 direcMng.Create(direccion);
                 tCliente = clieMng.RetrieveById(cliente);
-                tDirec = direcMng.RetrieveById(direccion);
+                tDirec = direcMng.RetrieveById(direccion);*/
                 Console.WriteLine("Nuevo cliente creado.");
                 Console.ReadKey();
             }
@@ -524,58 +590,8 @@ static class Module1
 
         try
         {
-            Console.WriteLine("Identificacion: " + tCliente.Id);
-            string id = tCliente.Id;
-            Cliente cliente = new Cliente();
-            cliente.Id = id;
-            cliente = clieMng.RetrieveById(cliente);
-            if (cliente != null)
-            {
-                Cuenta cuenta = new Cuenta();
-                cuenta.IdCliente = id;
-                cuenta = cuentaMng.RetrieveById(cuenta);
-                if (cuenta == null)
-                {
-                    Console.Write("Tipo de la cuenta, Ahorro (A) o Corriente(C): ");
-                    string tipo = Console.ReadLine();
-                    Console.Write("Tipo de moneda: ");
-                    string moneda = Console.ReadLine();
-
-                    double saldo;
-                    do
-                    {
-                        Console.Write("Saldo: ");
-                        if (double.TryParse(Console.ReadLine(), out saldo))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    cuenta = new Cuenta();
-                    cuenta.IdCliente = id;
-                    cuenta.Tipo = tipo;
-                    cuenta.Moneda = moneda;
-                    cuenta.Saldo = saldo;
-
-                    cuentaMng.Create(cuenta);
-                    tCuenta = cuenta;
-                    Console.WriteLine("Nueva cuenta creada.");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.WriteLine("Este cliente ya tiene una cuenta creada.");
-                    Console.ReadKey();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Cliente con esa identificación no existe.");
-                Console.ReadKey();
-            }
+            
         }
-
-
         catch (Exception ex)
         {
             Console.WriteLine("***************************");
@@ -595,90 +611,7 @@ static class Module1
 
         try
         {
-            Console.WriteLine("Identificacion: " + tCliente.Id);
-            string id = tCliente.Id;
-            Cliente cliente = new Cliente();
-            cliente.Id = id;
-            cliente = clieMng.RetrieveById(cliente);
-            if (cliente != null)
-            {
-                Credito temp = new Credito();
-                temp.IdCliente = id;
-                temp = creditMng.RetrieveById(temp);
-                if (temp == null)
-                {
-                    double monto;
-                    do
-                    {
-                        Console.Write("Monto del crédito: ");
-                        if (double.TryParse(Console.ReadLine(), out monto))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    double tasa;
-                    do
-                    {
-                        Console.Write("Tasa del crédito: ");
-                        if (double.TryParse(Console.ReadLine(), out tasa))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    Console.Write("Nombre del crédito: ");
-                    string nombre = Console.ReadLine();
-
-                    double cuota;
-                    do
-                    {
-                        Console.Write("Cuota mensual: ");
-                        if (double.TryParse(Console.ReadLine(), out cuota))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    Console.Write("Estado del crédito: ");
-                    string estado = Console.ReadLine();
-
-                    double saldo;
-                    do
-                    {
-                        Console.Write("Saldo: ");
-                        if (double.TryParse(Console.ReadLine(), out saldo))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    Credito credito = new Credito();
-                    credito.IdCliente = id;
-                    credito.Monto = monto;
-                    credito.Tasa = tasa;
-                    credito.Nombre = nombre;
-                    credito.Cuota = cuota;
-                    credito.Fecha = DateTime.Now;
-                    credito.Estado = estado;
-                    credito.Saldo = saldo;
-                    creditMng.Create(credito);
-                    tCredito = credito;
-
-                    Console.WriteLine("Nuevo crédito aprobado.");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.WriteLine("Ese cliente ya tiene un crédito aprobado.");
-                    Console.ReadKey();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Cliente con esa identificación no existe.");
-                Console.ReadKey();
-            }
+            
         }
 
 
@@ -695,33 +628,7 @@ static class Module1
     {
         try
         {
-            Console.Clear();
-            Cliente cliente = tCliente;
-            Direccion direccion = tDirec;
-
-            if (cliente != null)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Cliente:             " + cliente.Id);
-                Console.WriteLine("Nombre:              " + cliente.Nombre);
-                Console.WriteLine("Apellido:            " + cliente.Apellido);
-                Console.WriteLine("Fecha de nacimiento: " + cliente.DOB);
-                Console.WriteLine("Estado civil:        " + cliente.ECivil);
-                Console.WriteLine("Edad:                " + cliente.Edad);
-                if (direccion != null)
-                    Console.WriteLine("Direccion: " + direccion.Provincia + ", " + direccion.Canton + 
-                        " ," + direccion.Distrito+" ," + direccion.Detalles);
-
-                Console.WriteLine();
-                Console.Write("Presione una tecla para continuar...");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("No hay clientes registrados con esa identificación");
-                Console.ReadKey();
-            }
+            
         }
         catch (Exception ex)
         {
@@ -735,49 +642,7 @@ static class Module1
     {
         try
         {
-            Console.Clear();
-            Cliente cliente = new Cliente();
-            Direccion direccion = new Direccion();
-
-            Console.WriteLine("Digite la identificación del cliente por buscar: ");
-            string id = Console.ReadLine();
-            cliente.Id = id;
-            cliente = clieMng.RetrieveById(cliente);
-
-            if (cliente != null)
-            {
-                direccion.IdCliente = cliente.Id;
-                direccion = direcMng.RetrieveById(direccion);
-                Console.WriteLine();
-                Console.WriteLine("Cliente:             " + cliente.Id);
-                Console.WriteLine("Nombre:              " + cliente.Nombre);
-                Console.WriteLine("Apellido:            " + cliente.Apellido);
-                Console.WriteLine("Fecha de nacimiento: " + cliente.DOB);
-                Console.WriteLine("Estado civil:        " + cliente.ECivil);
-                Console.WriteLine("Edad:                " + cliente.Edad);
-                if (direccion != null)
-                    Console.WriteLine("Direccion: " + direccion.Provincia + ", " + direccion.Canton + " ," + direccion.Distrito+ " ," + direccion.Detalles);
-                Cuenta cuenta = new Cuenta();
-                cuenta.IdCliente = id;
-                Credito credito = new Credito();
-                credito.IdCliente = id;
-
-                Init();
-                tCliente = cliente;
-                tDirec = direccion;
-                tCuenta = cuentaMng.RetrieveById(cuenta);
-                tCredito = creditMng.RetrieveById(credito);
-
-                Console.WriteLine();
-                Console.Write("Presione una tecla para continuar...");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("No hay clientes registrados con esa identificación");
-                Console.ReadKey();
-            }
+            
         }
         catch (Exception ex)
         {
@@ -797,64 +662,7 @@ static class Module1
 
         try
         {
-            Cliente cliente = tCliente;
-            Direccion direccion = tDirec;
-            Console.WriteLine("Identificacion: " + tCliente.Id);
-
-            if (cliente != null)
-            {
-                Console.Write("[" + cliente.Nombre + "] Primer Nombre: ");
-                string nombre = Console.ReadLine();
-                Console.Write("[" + cliente.Apellido + "] Apellido: ");
-                string apellido = Console.ReadLine();
-                Console.Write("[" + cliente.DOB + "] Fecha de nacimiento: ");
-                string dob = Console.ReadLine();
-                int edad;
-                do
-                {
-                    Console.Write("[" + cliente.Edad + "] Edad: ");
-                    if (int.TryParse(Console.ReadLine(), out edad))
-                        break;
-                    Console.WriteLine("No es un número entero, intente de nuevo.");
-                }
-                while (true);
-
-                Console.Write("[" + cliente.ECivil + "] Estado civil: ");
-                string estado = Console.ReadLine();
-                Console.Write("[" + cliente.Sexo + "] Sexo: ");
-                string sexo = Console.ReadLine();
-                Console.WriteLine("Ingrese su dirección: ");
-                Console.Write("[" + direccion.Provincia + "] Provincia: ");
-                string provincia = Console.ReadLine();
-                Console.Write("[" + direccion.Canton + "] Cantón: ");
-                string canton = Console.ReadLine();
-                Console.Write("[" + direccion.Distrito + "] Distrito: ");
-                string distrito = Console.ReadLine();
-
-                cliente.Nombre = nombre;
-                cliente.Apellido = apellido;
-                cliente.DOB = dob;
-                cliente.Edad = edad;
-                cliente.ECivil = estado;
-                cliente.Edad = edad;
-                cliente.Sexo = sexo;
-
-                direccion.Provincia = provincia;
-                direccion.Canton = canton;
-                direccion.Distrito = distrito;
-
-                clieMng.Update(cliente);
-                direcMng.Update(direccion);
-                tCliente = cliente;
-                tDirec = direccion;
-                Console.WriteLine("Cliente modificado con éxito.");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.WriteLine("Cliente no existe.");
-                Console.ReadKey();
-            }
+            
         }
 
         catch (Exception ex)
@@ -870,85 +678,7 @@ static class Module1
     {
         try
         {
-            Cliente cliente = tCliente;
-            Direccion direccion = tDirec;
-            Cuenta cuenta = tCuenta;
-            Credito credito = tCredito;
-
-            if (cliente != null)
-            {
-                string resp = "";
-                do
-                {
-                    Console.Clear();
-                    Console.WriteLine("----------------------- Cliente -------------------------------");
-                    Console.WriteLine("Cliente:             " + cliente.Id);
-                    Console.WriteLine("Nombre:              " + cliente.Nombre);
-                    Console.WriteLine("Apellido:            " + cliente.Apellido);
-                    Console.WriteLine("Fecha de nacimiento: " + cliente.DOB);
-                    Console.WriteLine("Estado civil:        " + cliente.ECivil);
-                    Console.WriteLine("Edad:                " + cliente.Edad);
-                    if (direccion != null)
-                        Console.WriteLine("Direccion:           " + direccion.Provincia + ", " + direccion.Canton + " ," + direccion.Distrito);
-                    if (cuenta != null)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("----------------------- Cuenta -------------------------------");
-                        Console.WriteLine("Cuenta: " + cuenta.IdCuenta);
-                        Console.WriteLine("Tipo: " + cuenta.Tipo);
-                        Console.WriteLine("Moneda: " + cuenta.Moneda);
-                        Console.WriteLine("Saldo:  " + cuenta.Saldo);
-                    }
-
-                    if (credito != null)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("----------------------- Crédito -------------------------------");
-                        Console.WriteLine("CréditoID:           " + credito.IdCredito);
-                        Console.WriteLine("Monto:               " + credito.Monto);
-                        Console.WriteLine("Tasa:                " + credito.Tasa);
-                        Console.WriteLine("Nombre:              " + credito.Nombre);
-                        Console.WriteLine("Cuota:               " + credito.Cuota);
-                        Console.WriteLine("Fecha de aprobación: " + credito.Fecha);
-                        Console.WriteLine("Estado:              " + credito.Estado);
-                        Console.WriteLine("Saldo:               " + credito.Saldo);
-                    }
-
-                    Console.WriteLine();
-                    Console.WriteLine("Desea eliminar al cliente " + cliente.Id + " y todos sus datos asociados? (S/N) ");
-                    resp = Console.ReadLine();
-                }
-                while (!(resp == "S") | (resp == "s") | (resp == "n") | (resp == "N"));
-
-                if ((resp == "S") | (resp == "s"))
-                {
-                    clieMng.Delete(cliente);
-                    direcMng.Delete(direccion);
-                    if (cuenta != null)
-                    {
-                        cuentaMng.Delete(cuenta);
-                        Console.WriteLine("Cuenta eliminada...");
-                    }
-                    if (credito != null)
-                    {
-                        creditMng.Delete(credito);
-                        Console.WriteLine("Crédito eliminado...");
-                    }
-
-                    Console.WriteLine("Todos los datos fueron eliminados.");
-                    Init();
-                }
-                else
-                    Console.WriteLine("No se ha eliminado.");
-
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("No hay clientes registrados con esa identificación");
-                Console.ReadKey();
-            }
+            
         }
         catch (Exception ex)
         {
@@ -962,29 +692,7 @@ static class Module1
     {
         try
         {
-            Console.Clear();
-            Cuenta cuenta = tCuenta;
-
-            if (cuenta != null)
-            {
-                Console.WriteLine();
-                Console.WriteLine("----------------------- Cuenta -------------------------------");
-                Console.WriteLine("Id:     " + cuenta.IdCuenta);
-                Console.WriteLine("Cliente:     " + cuenta.IdCliente);
-                Console.WriteLine("Tipo: " + cuenta.Tipo);
-                Console.WriteLine("Moneda: " + cuenta.Moneda);
-                Console.WriteLine("Saldo:  " + cuenta.Saldo);
-
-                Console.WriteLine();
-                Console.Write("Presione una tecla para continuar...");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("No hay cuentas registrados con esa identificación");
-                Console.ReadKey();
-            }
+            
         }
         catch (Exception ex)
         {
@@ -1004,54 +712,8 @@ static class Module1
 
         try
         {
-            Console.WriteLine("Identificacion: " + tCliente.Id);
-
-            if (tCuenta != null)
-            {
-                Cuenta cuenta = new Cuenta();
-                cuenta = tCuenta;
-
-                if (cuenta != null)
-                {
-                    Console.Write("[" + cuenta.Tipo + "] Tipo de la cuenta: ");
-                    string tipo = Console.ReadLine();
-
-                    Console.Write("[" + cuenta.Moneda + "] Tipo de moneda: ");
-                    string moneda = Console.ReadLine();
-
-                    double saldo;
-                    do
-                    {
-                        Console.Write("[" + cuenta.Saldo + "] Saldo: ");
-                        if (double.TryParse(Console.ReadLine(), out saldo))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    cuenta.Tipo = tipo;
-                    cuenta.Moneda = moneda;
-                    cuenta.Saldo = saldo;
-
-                    cuentaMng.Update(cuenta);
-                    tCuenta = cuenta;
-                    Console.WriteLine("Cuenta modificada.");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.WriteLine("Este cliente no tiene una cuenta creada.");
-                    Console.ReadKey();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Cliente con esa identificación no existe.");
-                Console.ReadKey();
-            }
+            
         }
-
-
         catch (Exception ex)
         {
             Console.WriteLine("***************************");
@@ -1065,48 +727,7 @@ static class Module1
     {
         try
         {
-            Cuenta cuenta = tCuenta;
-
-            if (cuenta != null)
-            {
-                string resp = "";
-                do
-                {
-                    if (cuenta != null)
-                    {
-                        Console.Clear();
-                        Console.WriteLine();
-                        Console.WriteLine(" ----------------------- Cuenta -------------------------------");
-                        Console.WriteLine(" Cliente: " + cuenta.IdCliente);
-                        Console.WriteLine(" Cuenta: " + cuenta.IdCuenta);
-                        Console.WriteLine(" Tipo: " + cuenta.Tipo);
-                        Console.WriteLine(" Moneda: " + cuenta.Moneda);
-                        Console.WriteLine(" Saldo:  " + cuenta.Saldo);
-                    }
-
-                    Console.WriteLine();
-                    Console.WriteLine(" Desea eliminar la cuenta " + cuenta.IdCuenta + " y todos sus datos asociados? (S/N) ");
-                    resp = Console.ReadLine();
-                }
-                while (!(resp == "S") | (resp == "s") | (resp == "n") | (resp == "N"));
-
-                if ((resp == "S") | (resp == "s"))
-                {
-                    cuentaMng.Delete(cuenta);
-                    tCuenta = null;
-                    Console.WriteLine(" Cuenta eliminada...");
-                }
-                else
-                    Console.WriteLine(" No se ha eliminado.");
-
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(" No hay cuentas registradas con esa identificación");
-                Console.ReadKey();
-            }
+            
         }
         catch (Exception ex)
         {
@@ -1120,33 +741,7 @@ static class Module1
     {
         try
         {
-            Console.Clear();
-            Credito credito = tCredito;
-
-            if (credito != null)
-            {
-                Console.WriteLine();
-                Console.WriteLine("----------------------- Crédito -------------------------------");
-                Console.WriteLine("ID:                  " + credito.IdCredito);
-                Console.WriteLine("Cliente:             " + credito.IdCliente);
-                Console.WriteLine("Monto:               " + credito.Monto);
-                Console.WriteLine("Tasa:                " + credito.Tasa);
-                Console.WriteLine("Nombre:              " + credito.Nombre);
-                Console.WriteLine("Cuota:               " + credito.Cuota);
-                Console.WriteLine("Fecha de aprobación: " + credito.Fecha);
-                Console.WriteLine("Estado:              " + credito.Estado);
-                Console.WriteLine("Saldo:               " + credito.Saldo);
-
-                Console.WriteLine();
-                Console.Write("Presione una tecla para continuar...");
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("No hay créditos registrados con esa identificación");
-                Console.ReadKey();
-            }
+            
         }
         catch (Exception ex)
         {
@@ -1166,87 +761,7 @@ static class Module1
 
         try
         {
-            Console.WriteLine("Identificacion: " + tCliente.Id);
-
-            if (tCredito != null)
-            {
-                Credito credito = new Credito();
-                credito = tCredito;
-
-                if (credito != null)
-                {
-                    double monto;
-                    do
-                    {
-                        Console.Write("[" + credito.Monto + "] Monto del crédito: ");
-                        if (double.TryParse(Console.ReadLine(), out monto))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    double tasa;
-                    do
-                    {
-                        Console.Write("[" + credito.Tasa + "] Tasa del crédito: ");
-                        if (double.TryParse(Console.ReadLine(), out tasa))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    Console.Write("[" + credito.Nombre + "] Nombre del crédito: ");
-                    string nombre = Console.ReadLine();
-
-                    double cuota;
-                    do
-                    {
-                        Console.Write("[" + credito.Cuota + "] Cuota mensual: ");
-                        if (double.TryParse(Console.ReadLine(), out cuota))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    Console.Write("[" + credito.Fecha + "] Fecha de firma: ");
-                    DateTime fecha = Console.ReadLine();
-                    Console.Write("[" + credito.Estado + "] Estado del crédito: ");
-                    string estado = Console.ReadLine();
-
-                    double saldo;
-                    do
-                    {
-                        Console.Write("[" + credito.Saldo + "] Saldo: ");
-                        if (double.TryParse(Console.ReadLine(), out saldo))
-                            break;
-                        Console.WriteLine("No es un número, intente de nuevo.");
-                    }
-                    while (true);
-
-                    credito.Monto = monto;
-                    credito.Tasa = tasa;
-                    credito.Nombre = nombre;
-                    credito.Cuota = cuota;
-                    credito.Fecha = fecha;
-                    credito.Estado = estado;
-                    credito.Saldo = saldo;
-                    creditMng.Update(credito);
-                    tCredito = credito;
-
-                    Console.WriteLine("Crédito modificado.");
-                    Console.ReadKey();
-                }
-                else
-                {
-                    Console.WriteLine("Este cliente no tiene un crédito aprobado.");
-                    Console.ReadKey();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Un crédito con esa identificación no existe.");
-                Console.ReadKey();
-            }
+            
         }
         catch (Exception ex)
         {
@@ -1261,50 +776,7 @@ static class Module1
     {
         try
         {
-            Credito credito = tCredito;
-
-            if (credito != null)
-            {
-                string resp = "";
-                do
-                {
-                    if (credito != null)
-                    {
-                        Console.Clear();
-                        Console.WriteLine();
-                        Console.WriteLine("----------------------- Crédito -------------------------------");
-                        Console.WriteLine("Monto:               " + credito.Monto);
-                        Console.WriteLine("Tasa:                " + credito.Tasa);
-                        Console.WriteLine("Nombre:              " + credito.Nombre);
-                        Console.WriteLine("Cuota:               " + credito.Cuota);
-                        Console.WriteLine("Fecha de aprobación: " + credito.Fecha);
-                        Console.WriteLine("Estado:              " + credito.Estado);
-                        Console.WriteLine("Saldo:               " + credito.Saldo);
-                    }
-
-                    Console.WriteLine();
-                    Console.WriteLine(" Desea eliminar el crédito " + credito.Nombre + " y todos sus datos asociados? (S/N) ");
-                    resp = Console.ReadLine();
-                }
-                while (!(resp == "S") | (resp == "s") | (resp == "n") | (resp == "N"));
-
-                if ((resp == "S") | (resp == "s"))
-                {
-                    creditMng.Delete(credito);
-                    tCredito = null;
-                    Console.WriteLine(" Cuenta eliminada...");
-                }
-                else
-                    Console.WriteLine(" No se ha eliminado.");
-
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine(" No hay cuentas registradas con esa identificación");
-                Console.ReadKey();
-            }
+            
         }
         catch (Exception ex)
         {

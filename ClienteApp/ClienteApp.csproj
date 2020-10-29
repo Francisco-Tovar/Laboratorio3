@@ -54,10 +54,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreAPI\CoreAPI.csproj">
-      <Project>{da588be3-df76-47fa-aa38-67fedf717165}</Project>
-      <Name>CoreAPI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Entities-POJO\Entities-POJO.csproj">
       <Project>{0326eef9-03d4-4d84-b2c6-64c29e5b806a}</Project>
       <Name>Entities-POJO</Name>
@@ -71,5 +67,6 @@
       <Name>WebAPI</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
