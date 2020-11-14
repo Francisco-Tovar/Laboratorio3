@@ -1,0 +1,42 @@
+﻿@using WebApp.Helpers;
+<script src="~/Scripts/Views/vClientes.js"></script>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.CtrlTable(viewName: "vClientes", id: "tblClientes", title: "Lista de clientes",
+    columnsTitle: "Id,Nombre,Apellido,Fecha de Nacimiento,Edad,Estado Civil,Sexo", ColumnsDataName: "Id,Nombre,Apellido,DOB,Edad,ECivil,Sexo",
+    onSelectFunction: "BindFields")
+
+
+<div class="card border-secondary" style="margin-top: 50px;">
+    <div class="card-header">
+        <div class="row pull-right">
+            <div class="col-md-8">Customer edition</div>
+            <div class="col-md-4">
+                @Html.CtrlButton(viewName: "vClientes", id: "btnCreate", label: "Create", onClickFunction: "Create", buttonType: "success")
+                @Html.CtrlButton(viewName: "vClientes", id: "btnUpdate", label: "Update", onClickFunction: "Update", buttonType: "info")
+                @Html.CtrlButton(viewName: "vClientes", id: "btnDelete", label: "Delete", onClickFunction: "Delete", buttonType: "danger")
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlInput(id: "txtId", type: "text", label: "Id", columnDataName: "Id")
+                        @Html.CtrlInput(id: "txtName", type: "text", label: "Nombre", columnDataName: "Nombre")
+                        @Html.CtrlInput(id: "txtLastName", type: "text", label: "Apellido", columnDataName: "Apellido")
+                        @Html.CtrlInput(id: "txtEdad", type: "number", label: "Edad", columnDataName: "Edad")
+                        @Html.CtrlInput(id: "txtCivil", type: "text", label: "Estado Civil", columnDataName: "ECivil")
+                        @Html.CtrlInput(id: "txtSexo", type: "text", label: "Genero", columnDataName: "Sexo")
+                        @Html.CtrlInput(id: "txtDOB", type: "date", label: "Fecha de Nacimiento", columnDataName: "DOB")                       
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

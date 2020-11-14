@@ -1,0 +1,45 @@
+﻿@using WebApp.Helpers;
+<script src="~/Scripts/Views/vCreditos.js"></script>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.CtrlTable(viewName: "vCreditos", id: "tblCreditos", title: "Lista de creditos",
+    columnsTitle: "Numero de credito,Cedula del cliente,Monto del credito,Tasa de interés,Línea de crédito,Cuota mensual,Fecha de firma,Estado,Saldo", ColumnsDataName: "IdCredito,IdCliente,Monto,Tasa,Nombre,Cuota,Fecha,Estado,Saldo",
+    onSelectFunction: "BindFields")
+
+
+<div class="card border-secondary" style="margin-top: 50px;">
+    <div class="card-header">
+        <div class="row pull-right">
+            <div class="col-md-8">Customer edition</div>
+            <div class="col-md-4">
+                @Html.CtrlButton(viewName: "vCreditos", id: "btnCreate", label: "Create", onClickFunction: "Create", buttonType: "success")
+                @Html.CtrlButton(viewName: "vCreditos", id: "btnUpdate", label: "Update", onClickFunction: "Update", buttonType: "info")
+                @Html.CtrlButton(viewName: "vCreditos", id: "btnDelete", label: "Delete", onClickFunction: "Delete", buttonType: "danger")
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlInput(id: "txtId", type: "text", label: "Numero de credito", columnDataName: "IdCredito")
+                        @Html.CtrlInput(id: "txtCedula", type: "text", label: "Cedula del cliente", columnDataName: "IdCliente")
+                        @Html.CtrlInput(id: "txtMonto", type: "number", label: "Monto del crédito", columnDataName: "Monto")
+                        @Html.CtrlInput(id: "txtNombre", type: "text", label: "Linea de crédito", columnDataName: "Nombre")
+                        @Html.CtrlInput(id: "txtTasa", type: "number", label: "Tasa de interés", columnDataName: "Tasa")
+                        @Html.CtrlInput(id: "txtCuota", type: "number", label: "Cuota mensual", columnDataName: "Cuota")
+                        @Html.CtrlInput(id: "txtFecha", type: "date", label: "Fecha de firma", columnDataName: "Fecha")
+                        @Html.CtrlInput(id: "txtEstado", type: "text", label: "Estado", columnDataName: "Estado")
+                        @Html.CtrlInput(id: "txtSaldo", type: "number", label: "Saldo", columnDataName: "Saldo")
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

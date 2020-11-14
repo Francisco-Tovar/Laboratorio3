@@ -1,0 +1,41 @@
+﻿@using WebApp.Helpers;
+<script src="~/Scripts/Views/vCuentas.js"></script>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.CtrlTable(viewName: "vCuentas", id: "tblCuentas", title: "Lista de cuentas",
+    columnsTitle: "Numero de cuenta ,Cedula del cliente ,Tipo de cuenta,Moneda,Saldo", ColumnsDataName: "IdCuenta,IdCliente,Tipo,Moneda,Saldo",
+    onSelectFunction: "BindFields")
+
+
+<div class="card border-secondary" style="margin-top: 50px;">
+    <div class="card-header">
+        <div class="row pull-right">
+            <div class="col-md-8">Customer edition</div>
+            <div class="col-md-4">
+                @Html.CtrlButton(viewName: "vCuentas", id: "btnCreate", label: "Create", onClickFunction: "Create", buttonType: "success")
+                @Html.CtrlButton(viewName: "vCuentas", id: "btnUpdate", label: "Update", onClickFunction: "Update", buttonType: "info")
+                @Html.CtrlButton(viewName: "vCuentas", id: "btnDelete", label: "Delete", onClickFunction: "Delete", buttonType: "danger")
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlInput(id: "txtId", type:"disabled", label: "Numero de cuenta", columnDataName: "IdCuenta")
+                        @Html.CtrlInput(id: "txtCedula", type: "text", label: "Cedula del cliente", columnDataName: "IdCliente")
+                        @Html.CtrlInput(id: "txtTipo", type: "text", label: "Tipo", columnDataName: "Tipo")
+                        @Html.CtrlInput(id: "txtMoneda", type: "text", label: "Moneda", columnDataName: "Moneda")
+                        @Html.CtrlInput(id: "txtSaldo", type: "number", label: "Saldo", columnDataName: "Saldo")
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

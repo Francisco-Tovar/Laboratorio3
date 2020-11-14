@@ -70,7 +70,24 @@ namespace CoreAPI
 
         public void Update(Cuenta cuenta)
         {
-            crudCuenta.Update(cuenta);
+            try
+            {
+                if (cuenta.Tipo == "A" || cuenta.Tipo == "C" || cuenta.Tipo == "a" || cuenta.Tipo == "c")
+                {
+                    crudCuenta.Update(cuenta);
+                }
+                else
+                {
+                    throw new BussinessException(6);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ExceptionManager.GetInstance().Process(ex);
+            }
+            
+            
         }
 
         public void Delete(Cuenta cuenta)

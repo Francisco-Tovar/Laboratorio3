@@ -45,7 +45,7 @@ namespace CoreAPI
         }
 
         public List<Cliente> RetrieveAll()
-        {
+        {            
             return crudCliente.RetrieveAll<Cliente>();
         }
 
