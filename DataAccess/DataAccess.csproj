@@ -48,6 +48,7 @@
     <Compile Include="Crud\CrudFactory.cs" />
     <Compile Include="Crud\DireccionCrudFactory.cs" />
     <Compile Include="Crud\DistritoCrudFactory.cs" />
+    <Compile Include="Crud\ListOptionCrudFactory.cs" />
     <Compile Include="Crud\MovimientoCrudFactory.cs" />
     <Compile Include="Crud\PagoCrudFactory.cs" />
     <Compile Include="Crud\ProvinciaCrudFactory.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Mapper\EntityMapper.cs" />
     <Compile Include="Mapper\IObjectMapper.cs" />
     <Compile Include="Mapper\ISqlStatements.cs" />
+    <Compile Include="Mapper\ListOptionMapper.cs" />
     <Compile Include="Mapper\MovimientoMapper.cs" />
     <Compile Include="Mapper\PagoMapper.cs" />
     <Compile Include="Mapper\ProvinciaMapper.cs" />

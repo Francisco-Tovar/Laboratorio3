@@ -1,3 +1,8 @@
+CREATE PROCEDURE [dbo].[RET_ALL_LST_PR]
+AS
+	SELECT * FROM TBL_LIST 
+    ORDER BY LIST_ID ASC;
+
 Create table TBL_PROVINCIAS(
 Cod char(1) primary key,
 Nombre varchar(50) unique

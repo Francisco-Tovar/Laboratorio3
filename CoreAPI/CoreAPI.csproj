@@ -48,6 +48,7 @@
     <Compile Include="CuentaManager.cs" />
     <Compile Include="DireccionManager.cs" />
     <Compile Include="DistritoManager.cs" />
+    <Compile Include="ListManager.cs" />
     <Compile Include="MovimientoManager.cs" />
     <Compile Include="PagoManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

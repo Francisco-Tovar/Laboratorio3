@@ -17,7 +17,7 @@ namespace WebApp.Models.Controls
         public string Label { get; set; }
         public string ListId { get; set; }
 
-        private string URL_API_LISTs = "https://localhost:44384/api/";
+        private string URL_API_LISTs = "https://localhost:44384/api/list/";
 
         public string ListOptions
         {
@@ -28,7 +28,7 @@ namespace WebApp.Models.Controls
 
                 foreach(var option in lst)
                 {
-                    htmlOptions += "<option value='" + option.Value + "'>" + option.Description + "</option>";
+                    htmlOptions += "<option value='" + option.Description + "'>" + option.Value + "</option>";
                 }
                 return htmlOptions;
             }

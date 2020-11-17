@@ -31,7 +31,10 @@
                         @Html.CtrlInput(id: "txtEdad", type: "number", label: "Edad", columnDataName: "Edad")
                         @Html.CtrlInput(id: "txtCivil", type: "text", label: "Estado Civil", columnDataName: "ECivil")
                         @Html.CtrlInput(id: "txtSexo", type: "text", label: "Genero", columnDataName: "Sexo")
-                        @Html.CtrlInput(id: "txtDOB", type: "date", label: "Fecha de Nacimiento", columnDataName: "DOB")                       
+                        @Html.CtrlInput(id: "txtDOB", type: "date", label: "Fecha de Nacimiento", columnDataName: "DOB")
+                        @Html.CtrlDropDown(id: "Provincias", label: "Provincia", listId: "LST_PROVINCIAS")                        
+                        @Html.CtrlDropDown(id: "Cantones", label: "Canton", listId: "LST_CANTONES")
+                        @Html.CtrlDropDown(id: "Distritos", label: "Distrito", listId: "LST_DISTRITOS")
                     </form>
                 </div>
             </div>

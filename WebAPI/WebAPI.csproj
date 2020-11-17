@@ -168,6 +168,7 @@
     <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\DistritoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Controllers\MovimientoController.cs" />
     <Compile Include="Controllers\PagoController.cs" />
     <Compile Include="Controllers\ProvinciaController.cs" />
