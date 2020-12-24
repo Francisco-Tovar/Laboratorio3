@@ -86,18 +86,42 @@ function ControlActions() {
 		return data;
 	}
 
+	//this.ShowMessage = function (type, message) {
+	//	if (type == 'E') {
+	//		$("#alert_container").removeClass("alert alert-success alert-dismissable")
+	//		$("#alert_container").addClass("alert alert-danger alert-dismissable");
+	//		$("#alert_message").text(message);
+	//	} else if (type == 'I') {
+	//		$("#alert_container").removeClass("alert alert-danger alert-dismissable")
+	//		$("#alert_container").addClass("alert alert-success alert-dismissable");
+	//		$("#alert_message").text(message);
+	//	}
+	//	$('.alert').show();
+	//};
+
 	this.ShowMessage = function (type, message) {
+
 		if (type == 'E') {
-			$("#alert_container").removeClass("alert alert-success alert-dismissable")
-			$("#alert_container").addClass("alert alert-danger alert-dismissable");
-			$("#alert_message").text(message);
+
+			swal({
+				title: message,
+				icon: "error",
+				text: "Algo ha salido mal!"
+			}
+			).then(() => { window.location.reload(); });
+
+
 		} else if (type == 'I') {
-			$("#alert_container").removeClass("alert alert-danger alert-dismissable")
-			$("#alert_container").addClass("alert alert-success alert-dismissable");
-			$("#alert_message").text(message);
+			swal({
+				title: message,
+				icon: "success",
+				text: "Click para continuar."
+			}
+			).then(() => { window.location.reload(); });
+
 		}
-		$('.alert').show();
-	};
+
+	};	
 
 	this.PostToAPI = function (service, data) {
 		var jqxhr = $.post(this.GetUrlApiService(service), data, function (response) {

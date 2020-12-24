@@ -34,14 +34,14 @@ namespace CoreAPI
                     cred.IdCredito = pago.IdCredito;
                     cred = crudCredito.Retrieve<Credito>(cred);
 
-                    if (cred.Saldo >= pago.Monto || pago.Operacion.Equals("Cargo"))
+                    if (cred.Saldo >= pago.Monto || pago.Operacion.Equals("1"))
                     {
                         pago.Fecha = DateTime.Now;
                         crudPago.Create(pago);
-                        if (pago.Operacion.Equals("Cargo"))
+                        if (pago.Operacion.Equals("1"))
                         {
                             cred.Saldo += pago.Monto;
-                        } else if (pago.Operacion.Equals("Pago"))
+                        } else if (pago.Operacion.Equals("2"))
                         {
                             cred.Saldo -= pago.Monto;
                         }

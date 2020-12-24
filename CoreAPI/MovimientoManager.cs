@@ -34,14 +34,14 @@ namespace CoreAPI
                     cuenta.IdCuenta = movimiento.IdCuenta;
                     cuenta = crudCuenta.Retrieve<Cuenta>(cuenta);
 
-                    if (cuenta.Saldo >= Math.Abs(movimiento.Monto) || movimiento.Tipo.Equals("Deposito"))
+                    if (cuenta.Saldo >= Math.Abs(movimiento.Monto) || movimiento.Tipo.Equals("1"))
                     {
                         movimiento.Fecha = DateTime.Now;
                         crudMovimiento.Create(movimiento);
-                        if (movimiento.Tipo.Equals("Deposito"))
+                        if (movimiento.Tipo.Equals("1"))
                         {
                             cuenta.Saldo += movimiento.Monto;
-                        } else if (movimiento.Tipo.Equals("Retiro")) 
+                        } else if (movimiento.Tipo.Equals("2")) 
                         {
                             cuenta.Saldo -= movimiento.Monto;
                         }

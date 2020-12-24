@@ -10,9 +10,9 @@
 
 
 <div class="card border-secondary" style="margin-top: 50px;">
-    <div class="card-header">
+    <div class="card-header bg-secondary">
         <div class="row pull-right">
-            <div class="col-md-8">Customer edition</div>
+            <div class="col-md-8">Edición de Cuentas Bancarias</div>
             <div class="col-md-4">
                 @Html.CtrlButton(viewName: "vCuentas", id: "btnCreate", label: "Create", onClickFunction: "Create", buttonType: "success")
                 @Html.CtrlButton(viewName: "vCuentas", id: "btnUpdate", label: "Update", onClickFunction: "Update", buttonType: "info")
@@ -25,12 +25,17 @@
             <div class="col-lg-6">
                 <div class="bs-component">
                     <form id="frmEdition">
-                        @Html.CtrlInput(id: "txtId", type:"disabled", label: "Numero de cuenta", columnDataName: "IdCuenta")
+                        @Html.CtrlInput(id: "txtId", type: "text", label: "Numero de cuenta", columnDataName: "IdCuenta", visibility: "disabled")
                         @Html.CtrlInput(id: "txtCedula", type: "text", label: "Cedula del cliente", columnDataName: "IdCliente")
-                        @Html.CtrlInput(id: "txtTipo", type: "text", label: "Tipo", columnDataName: "Tipo")
-                        @Html.CtrlInput(id: "txtMoneda", type: "text", label: "Moneda", columnDataName: "Moneda")
+                        @Html.CtrlDropDown(id: "txttipo", label: "Tipo de Cuenta", listId: "LST_TCUENTA", columnDataName: "Tipo")                        
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlDropDown(id: "moneda", label: "Moneda", listId: "LST_MONEDA", columnDataName: "Moneda")                        
                         @Html.CtrlInput(id: "txtSaldo", type: "number", label: "Saldo", columnDataName: "Saldo")
-                        
                     </form>
                 </div>
             </div>

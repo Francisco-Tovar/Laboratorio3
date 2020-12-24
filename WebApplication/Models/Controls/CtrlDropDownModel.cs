@@ -16,6 +16,8 @@ namespace WebApp.Models.Controls
        
         public string Label { get; set; }
         public string ListId { get; set; }
+        public string ColumnDataName { get; set; }
+        public string Visibility { get; set; }
 
         private string URL_API_LISTs = "https://localhost:44384/api/list/";
 
@@ -38,11 +40,10 @@ namespace WebApp.Models.Controls
             }
         }
 
-
         private List<OptionList> GetOptionsFromAPI()
         {
             var client = new WebClient();
-            var response = client.DownloadString(URL_API_LISTs + ListId);
+            var response = client.DownloadString(URL_API_LISTs + ListId);            
             var options = JsonConvert.DeserializeObject<List<OptionList>>(response); 
             return options;
         }

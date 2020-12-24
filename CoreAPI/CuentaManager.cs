@@ -29,13 +29,10 @@ namespace CoreAPI
                     throw new BussinessException(4);
                 }
 
-                if (cuenta.Saldo < 0)
+                if (cuenta.Saldo <= 0)
                     throw new BussinessException(5);
                 else
-                    if (cuenta.Tipo == "A" || cuenta.Tipo == "C")
                     crudCuenta.Create(cuenta);
-                else
-                    throw new BussinessException(6);
 
             }
             catch (Exception ex)

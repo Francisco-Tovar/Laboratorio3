@@ -42,7 +42,7 @@ namespace WebApp.Helpers
             return new HtmlString(ctrl.GetHtml());
         }
 
-        public static HtmlString CtrlInput(this HtmlHelper html, string id, string type, string label, string placeHolder = "", string columnDataName="")
+        public static HtmlString CtrlInput(this HtmlHelper html, string id, string type, string label, string placeHolder = "", string columnDataName = "", string visibility = "", string required = "")
         {
             var ctrl = new CtrlInputModel
             {
@@ -50,7 +50,9 @@ namespace WebApp.Helpers
                 Type = type,
                 Label = label,
                 PlaceHolder=placeHolder,
-                ColumnDataName=columnDataName
+                ColumnDataName=columnDataName,
+                Visibility = visibility,
+                Required = required
             };
 
             return new HtmlString(ctrl.GetHtml());
@@ -70,13 +72,15 @@ namespace WebApp.Helpers
             return new HtmlString(ctrl.GetHtml());
         }
 
-        public static HtmlString CtrlDropDown(this HtmlHelper html, string id, string label, string listId)
+        public static HtmlString CtrlDropDown(this HtmlHelper html, string id, string label, string listId, string columnDataName = "", string visibility = "")
         {
             var ctrl = new CtrlDropDownModel
             {
                 Id = id,
                 Label = label,
-                ListId = listId
+                ListId = listId,
+                ColumnDataName = columnDataName,
+                Visibility = visibility
             };
 
             return new HtmlString(ctrl.GetHtml());

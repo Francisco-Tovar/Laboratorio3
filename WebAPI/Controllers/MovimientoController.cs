@@ -71,7 +71,7 @@ namespace WebAPI.Controllers
                 mng.Create(movimiento);
 
                 apiResp = new ApiResponse();
-                apiResp.Message = "Movimiento creada con éxito.";
+                apiResp.Message = "Movimiento procesado con éxito.";
 
                 return Ok(apiResp);
             }
@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
                 mng.Update(movimiento);
 
                 apiResp = new ApiResponse();
-                apiResp.Message = "Movimiento modificada con éxito.";
+                apiResp.Message = "Movimiento modificado con éxito.";
 
                 return Ok(apiResp);
             }
@@ -108,7 +108,7 @@ namespace WebAPI.Controllers
                 mng.Delete(movimiento);
 
                 apiResp = new ApiResponse();
-                apiResp.Message = "Movimiento eliminada con éxito.";
+                apiResp.Message = "Movimiento eliminado con éxito.";
 
                 return Ok(apiResp);
             }

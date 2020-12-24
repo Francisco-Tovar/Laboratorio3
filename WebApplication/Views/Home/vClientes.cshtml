@@ -5,14 +5,15 @@
 }
 
 @Html.CtrlTable(viewName: "vClientes", id: "tblClientes", title: "Lista de clientes",
-    columnsTitle: "Id,Nombre,Apellido,Fecha de Nacimiento,Edad,Estado Civil,Sexo", ColumnsDataName: "Id,Nombre,Apellido,DOB,Edad,ECivil,Sexo",
+    columnsTitle: "Cedula,Nombre,Apellido,Fecha de Nacimiento,Edad,Estado Civil,Sexo", 
+    ColumnsDataName: "Id,Nombre,Apellido,DOB,Edad,ECivil,Sexo",
     onSelectFunction: "BindFields")
 
 
 <div class="card border-secondary" style="margin-top: 50px;">
-    <div class="card-header">
+    <div class="card-header bg-secondary">
         <div class="row pull-right">
-            <div class="col-md-8">Customer edition</div>
+            <div class="col-md-8">Edición de Clientes</div>
             <div class="col-md-4">
                 @Html.CtrlButton(viewName: "vClientes", id: "btnCreate", label: "Create", onClickFunction: "Create", buttonType: "success")
                 @Html.CtrlButton(viewName: "vClientes", id: "btnUpdate", label: "Update", onClickFunction: "Update", buttonType: "info")
@@ -25,21 +26,25 @@
             <div class="col-lg-6">
                 <div class="bs-component">
                     <form id="frmEdition">
-                        @Html.CtrlInput(id: "txtId", type: "text", label: "Id", columnDataName: "Id")
+                        @Html.CtrlInput(id: "txtId", type: "text", label: "Cédula", columnDataName: "Id")
                         @Html.CtrlInput(id: "txtName", type: "text", label: "Nombre", columnDataName: "Nombre")
                         @Html.CtrlInput(id: "txtLastName", type: "text", label: "Apellido", columnDataName: "Apellido")
-                        @Html.CtrlInput(id: "txtEdad", type: "number", label: "Edad", columnDataName: "Edad")
-                        @Html.CtrlInput(id: "txtCivil", type: "text", label: "Estado Civil", columnDataName: "ECivil")
-                        @Html.CtrlInput(id: "txtSexo", type: "text", label: "Genero", columnDataName: "Sexo")
-                        @Html.CtrlInput(id: "txtDOB", type: "date", label: "Fecha de Nacimiento", columnDataName: "DOB")
-                        @Html.CtrlDropDown(id: "Provincias", label: "Provincia", listId: "LST_PROVINCIAS")                        
-                        @Html.CtrlDropDown(id: "Cantones", label: "Canton", listId: "LST_CANTONES")
-                        @Html.CtrlDropDown(id: "Distritos", label: "Distrito", listId: "LST_DISTRITOS")
+                        @Html.CtrlInput(id: "txtEdad", type: "number", label: "Edad", columnDataName: "Edad")                        
+                        
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlDropDown(id: "Genero", label: "Genero", listId: "LST_GENERO", columnDataName: "Sexo")
+                        @Html.CtrlInput(id: "txtDOB", type: "date", label: "Fecha de Nacimiento", columnDataName: "DOB", visibility: "onkeydown='return false'")
+                        @Html.CtrlDropDown(id: "EstadoCivil", label: "Estado Civil", listId: "LST_ECIVIL", columnDataName: "ECivil")
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div>   
 </div>
 
 

@@ -28,7 +28,25 @@ namespace WebApplication.Controllers
         {
             return View();
         }
-
-
+        public ActionResult vDirecciones()
+        {
+            return View();
+        }
+        public ActionResult vMovimientos()
+        {
+            return View();
+        }
+        public ActionResult vListarMovimientos()
+        {
+            return View();
+        }
+        public ActionResult vPagos()
+        {
+            return View();
+        }
+        public ActionResult vListarPagos()
+        {
+            return View();
+        }
     }
 }

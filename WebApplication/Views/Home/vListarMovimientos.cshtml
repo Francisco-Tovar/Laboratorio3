@@ -1,0 +1,12 @@
+﻿@using WebApp.Helpers;
+<script src="~/Scripts/Views/vListarMovimientos.js"></script>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.CtrlTable(viewName: "vMovimientos", id: "tblCuentas", title: "Lista de Movimientos en Cuentas",
+    columnsTitle: "Movimiento ID,Numero de Cuenta,Fecha,Tipo,Monto", 
+    ColumnsDataName: "IdMovimiento,IdCuenta,Fecha,Tipo,Monto",
+    onSelectFunction: "")
+
+

@@ -1,0 +1,48 @@
+﻿@using WebApp.Helpers;
+<script src="~/Scripts/Views/vDirecciones.js"></script>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.CtrlTable(viewName: "vDirecciones", id: "tblClientes", title: "Lista de clientes",
+    columnsTitle: "Direccion,Cliente,Provincia,Canton,Distrito,Detalles", 
+    ColumnsDataName: "IdDireccion,IdCliente,Provincia,Canton,Distrito,Detalles",
+    onSelectFunction: "BindFields")
+
+
+<div class="card border-secondary" style="margin-top: 50px;">
+    <div class="card-header bg-secondary">
+        <div class="row pull-right">
+            <div class="col-md-8">Edición de Direcciones</div>
+            <div class="col-md-4">
+                @Html.CtrlButton(viewName: "vDirecciones", id: "btnCreate", label: "Create", onClickFunction: "Create", buttonType: "success")
+                @Html.CtrlButton(viewName: "vDirecciones", id: "btnUpdate", label: "Update", onClickFunction: "Update", buttonType: "info")
+                @Html.CtrlButton(viewName: "vDirecciones", id: "btnDelete", label: "Delete", onClickFunction: "Delete", buttonType: "danger")
+            </div>
+        </div>
+    </div>
+    <div class="card-body ">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlInput(id: "txtId", type: "text", label: "Direccion", columnDataName: "IdDireccion", visibility: "disabled")
+                        @Html.CtrlInput(id: "txtName", type: "text", label: "Cliente", columnDataName: "IdCliente")
+                        @Html.CtrlInput(id: "txtDesc", type: "text", label: "Detalles", columnDataName: "Detalles")
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlDropDown(id: "Provincias", label: "Provincia", listId: "LST_PROVINCIAS", columnDataName: "Provincia")
+                        @Html.CtrlDropDown(id: "Cantones", label: "Canton", listId: "LST_CANTONES", columnDataName: "Canton")
+                        @Html.CtrlDropDown(id: "Distritos", label: "Distrito", listId: "LST_DISTRITOS", columnDataName: "Distrito")
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+

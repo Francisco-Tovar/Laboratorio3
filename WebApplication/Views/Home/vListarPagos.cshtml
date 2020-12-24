@@ -1,0 +1,12 @@
+﻿@using WebApp.Helpers;
+<script src="~/Scripts/Views/vListarPagos.js"></script>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.CtrlTable(viewName: "vListarPagos", id: "tblCuentas", title: "Lista de Pagos en Creditos",
+    columnsTitle: "Pago ID,Numero de Credito,Fecha,Tipo,Monto", 
+    ColumnsDataName: "IdPago,IdCredito,Fecha,Operacion,Monto",
+    onSelectFunction: "")
+
+

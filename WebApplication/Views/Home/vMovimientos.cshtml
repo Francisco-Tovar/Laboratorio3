@@ -1,0 +1,43 @@
+﻿@using WebApp.Helpers;
+<script src="~/Scripts/Views/vMovimientos.js"></script>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.CtrlTable(viewName: "vMovimientos", id: "tblCuentas", title: "Lista de cuentas",
+    columnsTitle: "Numero de cuenta ,Cedula del cliente ,Tipo de cuenta,Moneda,Saldo", ColumnsDataName: "IdCuenta,IdCliente,Tipo,Moneda,Saldo",
+    onSelectFunction: "BindFields")
+
+
+<div class="card border-secondary" style="margin-top: 50px;">
+    <div class="card-header bg-secondary">
+        <div class="row pull-right">
+            <div class="col-md-8">Depósito o Retiro</div>
+            <div class="col-md-4">
+                @Html.CtrlButton(viewName: "vMovimientos", id: "btnCreate", label: "Procesar", onClickFunction: "Create", buttonType: "success")                
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlInput(id: "txtId", type: "text", label: "Numero de cuenta", columnDataName: "IdCuenta", visibility: "disabled")                        
+                        @Html.CtrlDropDown(id: "txttipo", label: "Tipo de Movimiento", listId: "LST_MOVIMIENTO", columnDataName: "Tipo")                        
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlDropDown(id: "moneda", label: "Moneda", listId: "LST_MONEDA", columnDataName: "Moneda", visibility: "disabled")
+                        @Html.CtrlInput(id: "txtmonto", type: "number", label: "Monto", columnDataName: "monto")
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -88,6 +88,7 @@ namespace Exceptions
 
         private void LoadMessages()
         {
+            messages.Add(1, new ApplicationMessage { Id = 1, Message = "Cliente no existe." });
             messages.Add(2, new ApplicationMessage { Id = 2, Message = "Cliente debe ser mayor de edad 18+." });
             messages.Add(3, new ApplicationMessage { Id = 3, Message = "Cliente ya existe en la base de datos." });
             messages.Add(4, new ApplicationMessage { Id = 4, Message = "Cuenta ya existe en la base de datos." });
@@ -102,6 +103,7 @@ namespace Exceptions
             messages.Add(13, new ApplicationMessage { Id = 13, Message = "Pago no existe." });
             messages.Add(14, new ApplicationMessage { Id = 14, Message = "El monto del pago no puede mayor al saldo del crédito." });
             messages.Add(15, new ApplicationMessage { Id = 15, Message = "Fecha inválida. Hoy o el futuro?" });
+            
 
         }
 

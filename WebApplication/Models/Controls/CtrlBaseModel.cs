@@ -12,12 +12,12 @@ namespace WebApp.Models.Controls
         public string ViewName { get; set; }
 
         private string ReadFileText()
-        {
-            //C:\Users\Developer\Documents\repos\CENFO_IPS201901\Capa WEB\Components\WebApp\Models\Controls
+        {            
             string path = System.Configuration.ConfigurationManager.AppSettings["PathTemplates"];
+            string combinedPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
             string fileName = this.GetType().Name + ".html";
 
-            path = path + fileName;
+            path = combinedPath + fileName;
                 
             string text = System.IO.File.ReadAllText(path);
 

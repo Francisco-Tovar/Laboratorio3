@@ -21,14 +21,21 @@ namespace CoreAPI
         {
             try
             {
-                var c = crudDireccion.Retrieve<Direccion>(direccion);
+                Cliente temp = new Cliente();
+                temp.Id = direccion.IdCliente;
+                var c = crudCliente.Retrieve<Cliente>(temp);
 
-                if (c != null)
-                {
-                    //Direccion already exist
-                    throw new BussinessException(10);
+                if (c == null)
+                {                    
+                    throw new BussinessException(1);
                 }
-                else
+                else {
+                    var b = crudDireccion.Retrieve<Direccion>(direccion);
+                    if (b != null)
+                    {
+                        throw new BussinessException(10);
+                    }                                
+                }
                     crudDireccion.Create(direccion);
             }
             catch (Exception ex)

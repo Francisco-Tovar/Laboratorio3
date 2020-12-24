@@ -10,9 +10,9 @@
 
 
 <div class="card border-secondary" style="margin-top: 50px;">
-    <div class="card-header">
+    <div class="card-header bg-secondary">
         <div class="row pull-right">
-            <div class="col-md-8">Customer edition</div>
+            <div class="col-md-8">Edición de Créditos</div>
             <div class="col-md-4">
                 @Html.CtrlButton(viewName: "vCreditos", id: "btnCreate", label: "Create", onClickFunction: "Create", buttonType: "success")
                 @Html.CtrlButton(viewName: "vCreditos", id: "btnUpdate", label: "Update", onClickFunction: "Update", buttonType: "info")
@@ -25,21 +25,27 @@
             <div class="col-lg-6">
                 <div class="bs-component">
                     <form id="frmEdition">
-                        @Html.CtrlInput(id: "txtId", type: "text", label: "Numero de credito", columnDataName: "IdCredito")
+                        @Html.CtrlInput(id: "txtId", type: "text", label: "Numero de credito", columnDataName: "IdCredito", visibility: "disabled")
                         @Html.CtrlInput(id: "txtCedula", type: "text", label: "Cedula del cliente", columnDataName: "IdCliente")
                         @Html.CtrlInput(id: "txtMonto", type: "number", label: "Monto del crédito", columnDataName: "Monto")
-                        @Html.CtrlInput(id: "txtNombre", type: "text", label: "Linea de crédito", columnDataName: "Nombre")
+                        @Html.CtrlDropDown(id: "nombre", label: "Linea de crédito", listId: "LST_CREDITO", columnDataName: "Nombre")                        
                         @Html.CtrlInput(id: "txtTasa", type: "number", label: "Tasa de interés", columnDataName: "Tasa")
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1">
+                <div class="bs-component">
+                    <form id="frmEdition">
                         @Html.CtrlInput(id: "txtCuota", type: "number", label: "Cuota mensual", columnDataName: "Cuota")
-                        @Html.CtrlInput(id: "txtFecha", type: "date", label: "Fecha de firma", columnDataName: "Fecha")
-                        @Html.CtrlInput(id: "txtEstado", type: "text", label: "Estado", columnDataName: "Estado")
+                        @Html.CtrlInput(id: "txtFecha", type: "date", label: "Fecha de firma", columnDataName: "Fecha", visibility: "onkeydown='return false'")
+                        @Html.CtrlDropDown(id: "Estado", label: "Estado", listId: "LST_ESTADO", columnDataName: "Estado")                        
                         @Html.CtrlInput(id: "txtSaldo", type: "number", label: "Saldo", columnDataName: "Saldo")
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
 
 

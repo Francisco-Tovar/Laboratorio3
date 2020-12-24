@@ -11,7 +11,8 @@ namespace WebApp.Models.Controls
         public string Label { get; set; }
         public string PlaceHolder { get; set; }
         public string ColumnDataName { get; set; }
-
+        public string Visibility { get; set; }
+        public string Required { get; set; }
         public CtrlInputModel()
         {
             ViewName = "";

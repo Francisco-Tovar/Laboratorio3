@@ -53,7 +53,7 @@ namespace DataAcess.Mapper
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "UPD_DIRECCIONES_PR" };
+            var operation = new SqlOperation { ProcedureName = "UPD_DIRECCION_PR" };
 
             var c = (Direccion)entity;
             operation.AddIntParam(DB_COL_IDDIRECCION, c.IdDireccion);
@@ -61,6 +61,7 @@ namespace DataAcess.Mapper
             operation.AddVarcharParam(DB_COL_PROVINCIA, c.Provincia);
             operation.AddVarcharParam(DB_COL_CANTON, c.Canton);
             operation.AddVarcharParam(DB_COL_DISTRITO, c.Distrito);
+            operation.AddVarcharParam(DB_COL_DETALLES, c.Detalles);
 
             return operation;
         }

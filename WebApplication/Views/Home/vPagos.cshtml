@@ -1,0 +1,44 @@
+﻿@using WebApp.Helpers;
+<script src="~/Scripts/Views/vPagos.js"></script>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.CtrlTable(viewName: "vPagos", id: "tblPagos", title: "Lista de creditos",
+    columnsTitle: "Credito,Cliente,Monto,Tasa,Nombre,Cuota,Fecha,Estado,Saldo", 
+    ColumnsDataName: "IdCredito,IdCliente,Monto,Tasa,Nombre,Cuota,Fecha,Estado,Saldo",
+    onSelectFunction: "BindFields")
+
+
+<div class="card border-secondary" style="margin-top: 50px;">
+    <div class="card-header bg-secondary">
+        <div class="row pull-right">
+            <div class="col-md-8">Pagos de Créditos</div>
+            <div class="col-md-4">
+                @Html.CtrlButton(viewName: "vPagos", id: "btnCreate", label: "Procesar", onClickFunction: "Create", buttonType: "success")                
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlInput(id: "txtId", type: "text", label: "Numero de credito", columnDataName: "IdCredito", visibility: "disabled")
+                        @Html.CtrlDropDown(id: "txttipo", label: "Tipo de Operacion", listId: "LST_PAGO", columnDataName: "Operacion")                        
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1">
+                <div class="bs-component">
+                    <form id="frmEdition">
+                        @Html.CtrlDropDown(id: "moneda", label: "Tipo", listId: "LST_CREDITO", columnDataName: "Nombre", visibility: "disabled")
+                        @Html.CtrlInput(id: "txtmonto", type: "number", label: "Monto", columnDataName: "monto")
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
